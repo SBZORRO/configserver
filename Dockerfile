@@ -31,4 +31,4 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/classes 	/app
 #execute the application
 ENTRYPOINT ["java","-cp","app:app/lib/*","com.github.sbzorro.configserver.ConfigserverApplication"]
 
-EXPOSE 8080
+EXPOSE 8071

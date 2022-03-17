@@ -1,0 +1,14 @@
+spring:
+   application:
+      name: config-server
+   cloud:
+      config:
+         server:
+            native:
+               searchLocations: classpath:/config
+   profiles:
+      active: native
+server:
+   port: 8071
+encrypt:
+  key: secretkey
