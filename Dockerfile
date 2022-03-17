@@ -28,6 +28,8 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/lib 		/app/lib
 COPY --from=build ${DEPENDENCY}/META-INF 			/app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes 	/app
 
+HEALTHCHECK --start-period=30s --interval=5s --timeout=3000s CMD curl -f http://localhost:$PORT/actuator/health || exit 1
+
 #execute the application
 ENTRYPOINT ["java","-cp","app:app/lib/*","com.github.sbzorro.configserver.ConfigserverApplication"]
 
