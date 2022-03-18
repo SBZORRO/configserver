@@ -1,2 +1,12 @@
 example:
-  property: "I AM DEV"
+  property: I AM DEV
+spring:
+  cloud:
+    consul:
+      host: ${REGISTRY_HOST:localhost}
+      port: ${REGISTRY_PORT:8500}
+      discovery:
+        catalogServicesWatch:
+          enabled: false
+#        healthCheckPath: http://${host}:${port}/actuator/health
+#        healthCheckInterval: 15s

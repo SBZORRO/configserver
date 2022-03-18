@@ -1,2 +1,13 @@
 example:
-  property: "I AM THE DEFAULT"
+  property: I AM THE DEFAULT
+spring:
+  cloud:
+    consul:
+      host: ${REGISTRY_HOST:localhost}
+      port: ${REGISTRY_PORT:8500}
+      discovery:
+        healthCheckPath: http://${host}:${port}/actuator/health
+        healthCheckInterval: 15s
+#spring:
+#  config:
+#    import: optional:consul:http://${REGISTRY_HOST:localhost}:${REGISTRY_PORT:8500}
