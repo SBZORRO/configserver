@@ -1,0 +1,24 @@
+example:
+  property: I AM DEV
+server:
+  port: 8072
+spring:
+  cloud:
+    consul:
+      host: ${REGISTRY_HOST:localhost}
+      port: ${REGISTRY_PORT:8500}
+      discovery:
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+    gateway:
+      discovery.locator:
+      enabled: true
+      lowerCaseServiceId: true
+#      discovery:
+# ----------------
+# Orphan comments:
+# ----------------
+# Was at begin of line:14 :#        catalogServicesWatch:
+# Was at begin of line:15 :#          enabled: false
+# Was at begin of line:16 :#        healthCheckPath: http://${host}:${port}/actuator/health
+# Was at begin of line:17 :#        healthCheckInterval: 15s
