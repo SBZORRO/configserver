@@ -6,7 +6,10 @@ spring:
       host: ${REGISTRY_HOST:localhost}
       port: ${REGISTRY_PORT:8500}
       discovery:
-        catalogServicesWatch:
-          enabled: false
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+#      discovery:
+#        catalogServicesWatch:
+#          enabled: false
 #        healthCheckPath: http://${host}:${port}/actuator/health
 #        healthCheckInterval: 15s
