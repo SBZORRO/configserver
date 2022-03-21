@@ -8,6 +8,7 @@ spring:
       host: ${REGISTRY_HOST:localhost}
       port: ${REGISTRY_PORT:8500}
       discovery:
+        instance-id: gatewayserver
         healthCheckPath: /actuator/health
         healthCheckInterval: 15s
     gateway:
