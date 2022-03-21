@@ -1,0 +1,44 @@
+example:
+  property: I AM DEV
+server:
+  port: 8072
+spring:
+  cloud:
+    consul:
+      host: ${REGISTRY_HOST:localhost}
+      port: ${REGISTRY_PORT:8500}
+      discovery:
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+    gateway:
+#      routes:
+#        - id: licensingservice
+#          uri: lb://licensingservice
+#          predicates:
+#            - Path=/licensingservice/**
+#          filters:
+#            - StripPrefix=1
+      discovery:
+        locator:
+          url-expression: lb://licensingservice
+          enabled: true
+          lowerCaseServiceId: true
+          filters:
+          - StripPrefix=1
+#          - args[name]: serviceId
+#            name: CircuitBreaker
+#          - args[regexp]: '"''/'' + serviceId + ''/?(?<remaining>.*)''"'
+#            args[replacement]: '"''/${remaining}''"'
+#            name: RewritePath
+          predicates:
+          - Path=/licensingservice/**
+#            - Host='"''**.foo.com''"'
+          
+#      discovery:
+# ----------------
+# Orphan comments:
+# ----------------
+# Was at begin of line:14 :#        catalogServicesWatch:
+# Was at begin of line:15 :#          enabled: false
+# Was at begin of line:16 :#        healthCheckPath: http://${host}:${port}/actuator/health
+# Was at begin of line:17 :#        healthCheckInterval: 15s

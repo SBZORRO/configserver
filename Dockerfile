@@ -1,34 +1,21 @@
-#stage 1
-#Start with a base image containing Java runtime
-FROM openjdk:11-slim as build
+FROM openjdk:12-alpine
 
-# Add Maintainer Info
-LABEL maintainer="sbzorro"
+MAINTAINER icyfenix
 
-# The application's jar file
-# ARG JAR_FILE
+ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
+    JAVA_OPTS="" \
+    PORT=8071 \
+    PROFILES="native"
 
-# Add the application's jar to the container
-COPY /target/*.jar /app.jar
+ADD /target/*.jar /config.jar
 
-#unpackage jar file
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf /app.jar)
+RUN apk update && apk add curl && rm -rf /var/cache/apk/*
 
-#stage 2
-#Same Java runtime
-FROM openjdk:11-slim
+HEALTHCHECK --interval=5s --timeout=30s CMD curl -f http://localhost:$PORT/actuator/health || exit 1
 
-#Add volume pointing to /tmp
-VOLUME /tmp
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /config.jar --spring.profiles.active=$PROFILES"]
 
-#Copy unpackaged application to new container
-ARG DEPENDENCY=/target/dependency
+EXPOSE $PORT
 
-COPY --from=build ${DEPENDENCY}/BOOT-INF/lib 		/app/lib
-COPY --from=build ${DEPENDENCY}/META-INF 			/app/META-INF
-COPY --from=build ${DEPENDENCY}/BOOT-INF/classes 	/app
 
-#execute the application
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.github.sbzorro.configserver.ConfigserverApplication"]
 
-EXPOSE 8071

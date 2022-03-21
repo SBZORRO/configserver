@@ -11,9 +11,16 @@ spring:
         healthCheckPath: /actuator/health
         healthCheckInterval: 15s
     gateway:
+      routes:
+        - id: licensingservice  #请求 http://localhost:8100/data-service1/test会转发到data-producer服务，
+          uri: lb://licensingservice  #在服务注册中心找服务名为 data-producer的服务，
+          predicates:
+            - Path=/licensingservice/**
+          filters:
+            - StripPrefix=1
       discovery.locator:
-      enabled: true
-      lowerCaseServiceId: true
+        enabled: true
+        lowerCaseServiceId: true
 #      discovery:
 # ----------------
 # Orphan comments:
